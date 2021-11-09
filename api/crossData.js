@@ -25,7 +25,9 @@ async function getSpotifyTrackNameAndCountInLastFM() {
         var currentElement = {
             artistName: spotifyTrack.track.artists[0].name,
             trackName: spotifyTrack.track.name,
-            listenCount: matchingTrackCount
+            listenCount: matchingTrackCount,
+            spotifyId: spotifyTrack.track.id,
+            spotifyWebURL: spotifyTrack.track.external_urls.spotify
         };
 
         countedList.push(currentElement);
