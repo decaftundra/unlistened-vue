@@ -17,6 +17,9 @@
 </template>
 
 <script>
+import Playlists from './components/Playlists'
+import Unlistened from './components/Unlistened'
+
 const API_URL = 'http://localhost:4000/getDiscovery';
 
 export default {
