@@ -9,11 +9,22 @@ var spotifyApi = new SpotifyWebApi({
 
 spotifyApi.setAccessToken(process.env.SPOTIFY_ACCESS_TOKEN);
 
-async function getDiscoveryPlaylist() {
-    var data = await spotifyApi.getPlaylist('37i9dQZEVXcQlwWsr4LHgz?si=c99f40a8614545e7&nd=1');
+async function getTracksFromPlaylist(playlistID) {
+    var data = await spotifyApi.getPlaylist(playlistID);
     return data.body.tracks.items;
 }
 
+
+//TODO: compute limit (pagination)
+async function getAllPlaylistFromUser() {
+    var data = await spotifyApi.getUserPlaylists("116821822", { limit: "50" });
+    console.log("here");
+    return data.body.items
+}
+
+
+
 module.exports = {
-    getDiscoveryPlaylist
+    getTracksFromPlaylist,
+    getAllPlaylistFromUser
 }

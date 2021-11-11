@@ -1,8 +1,8 @@
 const spotify = require("../provider/spotify")
 const lastFM = require("../provider/lastFM")
 
-async function getSpotifyTrackNameAndCountInLastFM() {
-    var spotifyTracks = await spotify.getDiscoveryPlaylist()
+async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
+    var spotifyTracks = await spotify.getTracksFromPlaylist(playlistID)
     var countedList = [];
 
     for (let index = 0; index < spotifyTracks.length; index++) {
@@ -37,4 +37,21 @@ async function getSpotifyTrackNameAndCountInLastFM() {
 
 }
 
-module.exports = { getSpotifyTrackNameAndCountInLastFM }
+async function getUserPlaylist() {
+    spotifyPlaylists = await spotify.getAllPlaylistFromUser()
+    playlists = []
+
+    for (let index = 0; index < spotifyPlaylists.length; index++) {
+        const spotifyPlaylist = spotifyPlaylists[index];
+        let playlist = {
+            playlistName: spotifyPlaylist.name,
+            playlistId: spotifyPlaylist.id
+
+        }
+        playlists.push(playlist);
+    }
+
+    return playlists;
+}
+
+module.exports = { getSpotifyTrackNameAndCountInLastFM, getUserPlaylist }
