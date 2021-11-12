@@ -3,4 +3,4 @@ node_modules/
 music_recom.code-workspace
 
 .eslintrc.json
-web/jsconfig.json
+jsconfig.json

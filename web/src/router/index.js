@@ -1,24 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
-import Playlists from '../views/Playlists'
-//import Unlistened from '../views/Unlistened'
+import Playlists from '../views/Playlists.vue';
+// import Unlistened from '../views/Unlistened'
 
 const routes = [{
-        path: '/',
-        name: 'Playlists',
-        component: Playlists
-    },
-    /*  {
-         path: '/unlistened',
-         name: 'Unlistened',
-         component: Unlistened
-     } */
-
-]
+  path: '/',
+  name: 'Playlists',
+  component: Playlists,
+},
+];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
-})
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+});
 
-export default router
+export default router;
