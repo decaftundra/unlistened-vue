@@ -5,7 +5,7 @@ Lien cliquable vers unlistened -->
   <div>
     <hr>
     <div class="list-unstyled" v-for="playlist in playlists" :key="playlist.playlistId">
-      <h4 class="mt-0 mb-1">{{playlist.playlistName}}</h4>
+      <router-link :to="{path: '/unlistened/'+ playlist.playlistId}" > <h4 class="mt-0 mb-1">{{playlist.playlistName}}</h4></router-link>
     </div>
   </div>
 </template>

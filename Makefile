@@ -1,3 +1,3 @@
 auth:
 	npm run auth
-	open localhost:3000
+	http://localhost:3000
