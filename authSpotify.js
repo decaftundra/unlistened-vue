@@ -1,11 +1,11 @@
 const SpotifyWebApi = require('spotify-web-api-node');
-scopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-read-recently-played']
+scopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-read-recently-played', 'user-top-read']
 
 const express = require('express');
 const app = express()
 
 const dotenv = require('dotenv')
-dotenv.config({ path: './.authSpotify.env' });
+dotenv.config();
 
 const fs = require('fs');
 
@@ -27,18 +27,30 @@ app.get('/callback', async(req, res) => {
     //console.log(code)
     try {
         var data = await spotifyApi.authorizationCodeGrant(code)
+        console.log("data", data);
         const { access_token, refresh_token } = data.body;
         spotifyApi.setAccessToken(access_token);
         spotifyApi.setRefreshToken(refresh_token);
         console.log("access token:", access_token);
         console.log("refresh token:", refresh_token);
+        console.log("Getting me");
 
+        var me = await spotifyApi.getMe()
+        console.log("me",me);
+    
         fs.writeFile('.access.env',
-            `SPOTIFY_ACCESS_TOKEN=${access_token}\nSPOTIFY_REFRESH_TOKEN=${refresh_token}`,
+            `SPOTIFY_ACCESS_TOKEN=${access_token}\nSPOTIFY_REFRESH_TOKEN=${refresh_token}\nUSER_ID=${me.body.id}`,
             function(err) {
                 if (err) return console.log(err);
                 console.log('TOKEN SAVED');
             });
+
+        
+        
+
+
+        
+        
 
         res.send('ok')
 
