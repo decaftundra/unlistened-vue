@@ -1,6 +1,7 @@
 <template>
     <!-- Liste les playlists d'un utilisateur donné
 Lien cliquable vers unlistened -->
+  Playlists
   <div>
     <hr>
     <div class="list-unstyled" v-for="playlist in playlists" :key="playlist.playlistId">
