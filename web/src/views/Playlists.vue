@@ -15,7 +15,7 @@ Lien cliquable vers unlistened -->
 </template>
 
 <script>
-
+const API_URL = 'http://localhost:4000//getUserPlaylists';
 export default {
   name: 'Playlists',
   components: {},
@@ -23,8 +23,11 @@ export default {
     error: '',
     playlists: [],
   }),
-
-  methods: {},
+  mounted() {
+    fetch(API_URL).then((res) => {
+      this.playlists = res;
+    });
+  },
 };
 </script>
 
