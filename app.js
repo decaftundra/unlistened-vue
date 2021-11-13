@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 const cors = require('cors');
 const express = require('express');
 dotenv.config();
-dotenv.config({ path: '.authSpotify.env' });
+//dotenv.config({ path: '.authSpotify.env' });
 dotenv.config({ path: '.access.env' });
 
 const api = require("./api/crossData")
@@ -22,6 +22,7 @@ app.get('/getDiscovery/:id', (req, res) => {
 });
 
 app.get('/getUserPlaylists', (req, res) => {
+    console.log("/getUserPlaylists");
     api.getUserPlaylist().then((list) => {
         res.json(list);
     }).catch(e => {

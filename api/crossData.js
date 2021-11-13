@@ -38,6 +38,7 @@ async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
 }
 
 async function getUserPlaylist() {
+    console.log("Getting spotify playlists");
     spotifyPlaylists = await spotify.getAllPlaylistFromUser()
     playlists = []
 

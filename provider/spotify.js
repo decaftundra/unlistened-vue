@@ -17,9 +17,16 @@ async function getTracksFromPlaylist(playlistID) {
 
 //TODO: compute limit (pagination)
 async function getAllPlaylistFromUser() {
-    var data = await spotifyApi.getUserPlaylists("116821822", { limit: "50" });
-    console.log("here");
+    console.log("In spotify provider, getUserPlaylists ");
+    var data = await spotifyApi.getUserPlaylists(process.env.USER_ID, { limit: "50" });
+    console.log("res", data);
     return data.body.items
+}
+
+async function getMe() {
+    var data = await spotifyApi.getMe();
+    console.log("Me", data);
+    return data;
 }
 
 
