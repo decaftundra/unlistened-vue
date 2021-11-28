@@ -10,8 +10,14 @@ var spotifyApi = new SpotifyWebApi({
 spotifyApi.setAccessToken(process.env.SPOTIFY_ACCESS_TOKEN);
 
 async function getTracksFromPlaylist(playlistID) {
+    var playlist = {
+        name: "",
+        tracks: []
+    }
     var data = await spotifyApi.getPlaylist(playlistID);
-    return data.body.tracks.items;
+    playlist.tracks = data.body.tracks.items
+    playlist.name = data.body.name
+    return playlist ;
 }
 
 

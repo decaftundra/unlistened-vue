@@ -3,10 +3,12 @@ const lastFM = require("../provider/lastFM")
 
 async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
     var spotifyTracks = await spotify.getTracksFromPlaylist(playlistID)
+    var nameOfplaylist = spotifyTracks.name;
+    console.log(nameOfplaylist);
     var countedList = [];
 
-    for (let index = 0; index < spotifyTracks.length; index++) {
-        const spotifyTrack = spotifyTracks[index];
+    for (let index = 0; index < spotifyTracks.tracks.length; index++) {
+        const spotifyTrack = spotifyTracks.tracks[index];
         const lastFMtracks = await lastFM.fetchTracksWithName(spotifyTrack.track.name);
 
         var matchingTrackCount = 0
@@ -32,8 +34,13 @@ async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
 
         countedList.push(currentElement);
     }
-    console.log(countedList);
-    return countedList;
+    var res = {
+        name: nameOfplaylist,
+        tracks: countedList
+        
+    }
+    //console.log(countedList);
+    return res;
 
 }
 

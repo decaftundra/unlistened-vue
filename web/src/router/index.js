@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import Playlists from '../views/Playlists.vue';
-// import Unlistened from '../views/Unlistened'
+import Unlistened from '../views/Unlistened.vue'
 
 const routes = [{
   path: '/',
   name: 'Playlists',
   component: Playlists,
+},
+{
+  path: '/unlistened/:playlistId',
+  name: 'Unlistened',
+  component: Unlistened,
 },
 ];
 

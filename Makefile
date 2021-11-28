@@ -7,3 +7,9 @@ authspotify:
 
 loadlastfm:
 	npm run lastfmloader
+
+server:
+	npm run devStart
+
+frontend:
+	cd web && npm run serve
