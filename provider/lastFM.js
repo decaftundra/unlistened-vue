@@ -2,25 +2,27 @@ const db = require("../db/connection")
 
 const tracks = db.get('tracks')
 
-async function loadLastFmTracksIntoDb() {
+async function loadLastFmTracksIntoDb(apiKey) {
+    //Clear database before loading
+    await tracks.drop();
+
     var pageIndex = 1;
     var totalPagesCount = Infinity;
     while (pageIndex <= totalPagesCount) {
-        body = await fetchTracks(pageIndex);
+        body = await fetchTracks(pageIndex, apiKey);
         console.log(body);
         totalPagesCount = body.recenttracks["@attr"].totalPages;
 
         await InsertTracksIntoDb(body.recenttracks.track);
         pageIndex++;
-
     }
-
+    return "ok";
 }
 
+//b968a30db9b544c5a1f8fb0550607239
+function fetchTracks(pageIndex, apiKey) {
 
-function fetchTracks(pageIndex) {
-
-    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=decaftundra&api_key=b968a30db9b544c5a1f8fb0550607239&format=json&limit=200&page=" + pageIndex;
+    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=decaftundra&api_key="+apiKey+"&format=json&limit=200&page=" + pageIndex;
     return new Promise(resolve => {
 
         https.get(url, function(res) {
