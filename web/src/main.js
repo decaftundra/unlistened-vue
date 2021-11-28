@@ -1,11 +1,12 @@
-import { createApp } from 'vue';
-import router from './router';
-import App from './App.vue';
-import Playlists from './views/Playlists.vue';
-import Unlistened from './views/Unlistened.vue';
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import vuetify from './plugins/vuetify'
 
-const app = createApp(App);
-app.component(Playlists);
-app.component(Unlistened);
-app.use(router);
-app.mount('#app');
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')
