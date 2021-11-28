@@ -1,6 +1,6 @@
 const db = require("../db/connection")
 
-const tracks = db.get('tracks')
+const tracks = db.get(process.env.MONGO_TRACK_COL);
 
 async function loadLastFmTracksIntoDb(apiKey) {
     //Clear database before loading
@@ -22,10 +22,10 @@ async function loadLastFmTracksIntoDb(apiKey) {
 //b968a30db9b544c5a1f8fb0550607239
 function fetchTracks(pageIndex, apiKey) {
 
-    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=decaftundra&api_key="+apiKey+"&format=json&limit=200&page=" + pageIndex;
+    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user="+process.env.LASTFM_USER_NAME+"&api_key="+apiKey+"&format=json&limit=200&page=" + pageIndex;
     return new Promise(resolve => {
 
-        https.get(url, function(res) {
+        require('https').get(url, function(res) {
                 var body = "";
 
                 res.on("data", function(chunk) {
@@ -48,8 +48,8 @@ function fetchTracks(pageIndex, apiKey) {
     })
 }
 
-async function InsertTracksIntoDb(tracks) {
-    tracks.insertMany(tracks);
+async function InsertTracksIntoDb(tracksToInsert) {
+    tracks.insert(tracksToInsert);
 }
 
 async function fetchTracksWithName(trackName) {
