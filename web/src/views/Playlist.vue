@@ -25,9 +25,12 @@
 
 
             <v-row dense v-if="!loading">
+              <v-col cols="12">
+                <h1>{{playlist.name}}</h1>  
+              </v-col> 
               <v-col cols="12" v-for="track in playlist.tracks" :key="track.spotifyId">
                 <v-card
-                  dark 
+                   
                 >
                   <div class="d-flex  justify-space-between" >
                     <div>
@@ -50,6 +53,18 @@
                         >
                           LISTEN ON SPOTIFY
                         </v-btn>
+                        <v-chip 
+                          v-if="track.listenCount == 0"
+                          class="ml-2 mt-5"
+                          color="pink"
+                          label
+                          text-color="white"
+                        >
+                          <v-icon left>
+                            mdi-new-box
+                          </v-icon>
+                          NEW
+                        </v-chip>
                       </v-card-actions>
                     </div>
                     <v-avatar
