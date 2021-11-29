@@ -6,6 +6,7 @@
       v-model="drawer"
       permanent
       app
+       color="green lighten-3"
     >
       <v-sheet
         color="grey lighten-4"
@@ -20,13 +21,13 @@
         <v-btn to="/settings" color="success" class="mr-4">Log in with Spotify</v-btn><br>
       </v-sheet>
       <v-sheet
-        color="grey lighten-4"
+        color="green"
         class="pa-4"
         v-if="me != null"
       >
         <v-avatar
           class="mb-4"
-          color="grey darken-1"
+          color="green darken-1"
           size="64"
         >
           <img
@@ -57,10 +58,10 @@
         </v-list-item>
       </v-list>
       <template v-slot:append>
-        <div class="pa-2">
+        <div class="pa-2" >
           <v-btn block to="/settings">
             <v-icon
-              
+              style="mr-2"
             >
               mdi-cogs
             </v-icon>
@@ -72,7 +73,6 @@
 
     <v-main>
       <v-container
-        class="py-8 px-6"
         fluid
       >
         <router-view></router-view>
