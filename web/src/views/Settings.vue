@@ -13,13 +13,6 @@
       required
     ></v-text-field>
 
-    <v-text-field
-      v-model="lastFmApiKey"
-      :rules="nameRules"
-      label="LastFM API Key"
-      required
-    ></v-text-field>
-
     <v-btn
       :disabled="!valid"
       color="success"
@@ -40,7 +33,7 @@
 
   </v-form>
   
-  <h2>Spotify Settings</h2>
+  <h2 class="mt-10 mb-3">Spotify Settings</h2>
 
   <v-btn href="http://localhost:4000/spotifyLogin" color="success" class="mr-4">Log in with Spotify</v-btn><br>
 
@@ -108,28 +101,25 @@ export default {
     lastFmSnackBarTakesTime: false,
     lastFmSnackBarHistorySuccess: false,
     lastFmUserName: '',
-    lastFmApiKey: '',
     nameRules: [
       v => !!v || 'Required',
     ],
   }),
   created() {
     this.lastFmUserName = this.$cookies.get("lastFmUserName")
-    this.lastFmApiKey = this.$cookies.get("lastFmApiKey")
   },
   methods: {
     validate () {
       this.$refs.form.validate()
       if(this.valid) {
         this.$cookies.set("lastFmUserName", this.lastFmUserName)
-        this.$cookies.set("lastFmApiKey", this.lastFmApiKey)
         this.lastFmSnackBar = true
       }
 
     },
     reload() {
       this.lastFmSnackBarTakesTime = true
-      this.$http.get(LASTFM_RELOAD_URL+"?username="+this.lastFmUserName+"&apikey="+this.lastFmApiKey)
+      this.$http.get(LASTFM_RELOAD_URL+"?username="+this.lastFmUserName)
       .then(() => {
         this.lastFmSnackBarTakesTime = false
         this.lastFmSnackBarHistorySuccess = true

@@ -30,7 +30,7 @@ async function getAllPlaylistFromUser(spotifyAccessToken) {
     var spotifyApi = getClient(spotifyAccessToken);
 
     console.log("In spotify provider, getUserPlaylists ");
-    var data = await spotifyApi.getUserPlaylists(process.env.USER_ID, { limit: "50" });
+    var data = await spotifyApi.getUserPlaylists(undefined, { limit: "50" });
     console.log("res", data);
     return data.body.items
 }

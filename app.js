@@ -10,7 +10,7 @@ dotenv.config();
 dotenv.config({ path: '.access.env' });
 
 const api = require("./api/crossData")
-const spotifyScopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-read-recently-played', 'user-top-read']
+const spotifyScopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-read-recently-played', 'user-top-read', "playlist-read-private"]
 
 const app = express();
 app.use(express.json());
@@ -41,7 +41,7 @@ app.get('/getUserPlaylists', (req, res) => {
 app.get('/loadLastFmHistory', (req, res) => {
     console.log("/loadLastFmHistory");
     console.log(req.query);
-    api.loadLastFmHistory(req.query.username, req.query.apikey).then(() => {
+    api.loadLastFmHistory(req.query.username).then(() => {
         res.status(200);
     }).catch(e => {
         console.error(e);

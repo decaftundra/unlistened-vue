@@ -60,7 +60,8 @@ async function getUserPlaylist(spotifyAccessToken) {
         const spotifyPlaylist = spotifyPlaylists[index];
         let playlist = {
             playlistName: spotifyPlaylist.name,
-            playlistId: spotifyPlaylist.id
+            playlistId: spotifyPlaylist.id,
+            playlist: spotifyPlaylist,
 
         }
         playlists.push(playlist);
@@ -74,8 +75,8 @@ async function getMe(spotifyAccessToken) {
     return me
 }
 
-async function loadLastFmHistory(username, apiKey) {
-    await lastFM.loadLastFmTracksIntoDb(username, apiKey)
+async function loadLastFmHistory(username) {
+    await lastFM.loadLastFmTracksIntoDb(username)
     return
 }
 
