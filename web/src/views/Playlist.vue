@@ -12,7 +12,7 @@
 
       <v-switch
         v-model="onlyNew"
-        label="Only new?"
+        label="New only?"
         hide-details
       ></v-switch>
     </v-app-bar>
@@ -99,7 +99,7 @@ export default {
     drawer: null,
     playlistId:null,
     loading:true,
-    onlyNew:true,
+    onlyNew:false,
   }),
 
   computed: {
