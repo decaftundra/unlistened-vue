@@ -2,28 +2,36 @@ const db = require("../db/connection")
 
 const tracks = db.get(process.env.MONGO_TRACK_COL);
 
-async function loadLastFmTracksIntoDb(apiKey) {
+async function loadLastFmTracksIntoDb(username, apiKey) {
     //Clear database before loading
+
+    console.log("loadLastFmTracksIntoDb");
+    console.log(username, apiKey);
+
     await tracks.drop();
 
     var pageIndex = 1;
     var totalPagesCount = Infinity;
     while (pageIndex <= totalPagesCount) {
-        body = await fetchTracks(pageIndex, apiKey);
+        body = await fetchTracks(pageIndex, username, apiKey);
+        console.log(body);
+        if(body == false){
+            return false
+        }
         console.log(body);
         totalPagesCount = body.recenttracks["@attr"].totalPages;
 
         await InsertTracksIntoDb(body.recenttracks.track);
         pageIndex++;
     }
-    return "ok";
+    return true;
 }
 
 //b968a30db9b544c5a1f8fb0550607239
-function fetchTracks(pageIndex, apiKey) {
+function fetchTracks(pageIndex, username, apiKey) {
 
-    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user="+process.env.LASTFM_USER_NAME+"&api_key="+apiKey+"&format=json&limit=200&page=" + pageIndex;
-    return new Promise(resolve => {
+    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user="+username+"&api_key="+apiKey+"&format=json&limit=200&page=" + pageIndex;
+    return new Promise((resolve) => {
 
         require('https').get(url, function(res) {
                 var body = "";
@@ -36,13 +44,14 @@ function fetchTracks(pageIndex, apiKey) {
                     var last_fm_response = JSON.parse(body);
                     console.log(
                         "Got a response: ",
-                        last_fm_response.recenttracks["@attr"].totalPages
+                        last_fm_response
                     );
                     resolve(last_fm_response);
                 });
             })
             .on("error", function(e) {
                 console.log("Got an error: ", e);
+                resolve(false)
             });
 
     })

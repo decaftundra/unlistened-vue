@@ -1,8 +1,8 @@
 const spotify = require("../provider/spotify")
 const lastFM = require("../provider/lastFM")
 
-async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
-    var spotifyTracks = await spotify.getTracksFromPlaylist(playlistID)
+async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistID) {
+    var spotifyTracks = await spotify.getTracksFromPlaylist(spotifyAccessToken, playlistID)
     var nameOfplaylist = spotifyTracks.name;
     console.log(nameOfplaylist);
     var countedList = [];
@@ -29,7 +29,9 @@ async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
             trackName: spotifyTrack.track.name,
             listenCount: matchingTrackCount,
             spotifyId: spotifyTrack.track.id,
-            spotifyWebURL: spotifyTrack.track.external_urls.spotify
+            spotifyWebURL: spotifyTrack.track.external_urls.spotify,
+            track: spotifyTrack.track,
+
         };
 
         countedList.push(currentElement);
@@ -44,9 +46,9 @@ async function getSpotifyTrackNameAndCountInLastFM(playlistID) {
 
 }
 
-async function getUserPlaylist() {
+async function getUserPlaylist(spotifyAccessToken) {
     console.log("Getting spotify playlists");
-    spotifyPlaylists = await spotify.getAllPlaylistFromUser()
+    spotifyPlaylists = await spotify.getAllPlaylistFromUser(spotifyAccessToken)
     playlists = []
 
     for (let index = 0; index < spotifyPlaylists.length; index++) {
@@ -62,4 +64,14 @@ async function getUserPlaylist() {
     return playlists;
 }
 
-module.exports = { getSpotifyTrackNameAndCountInLastFM, getUserPlaylist }
+async function getMe(spotifyAccessToken) {
+    var me = await spotify.getMe(spotifyAccessToken)
+    return me
+}
+
+async function loadLastFmHistory(username, apiKey) {
+    await lastFM.loadLastFmTracksIntoDb(username, apiKey)
+    return
+}
+
+module.exports = { getSpotifyTrackNameAndCountInLastFM, getUserPlaylist, loadLastFmHistory, getMe }
