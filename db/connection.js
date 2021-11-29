@@ -1,8 +1,5 @@
 const monk = require('monk');
 
-// Connection URL
-const url = 'localhost:27017/recenttracks';
-
-const db = monk(url);
+const db = monk(process.env.MONGO_URL);
 
 module.exports = db;

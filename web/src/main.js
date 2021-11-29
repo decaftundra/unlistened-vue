@@ -1,11 +1,19 @@
-import { createApp } from 'vue';
-import router from './router';
-import App from './App.vue';
-import Playlists from './views/Playlists.vue';
-import Unlistened from './views/Unlistened.vue';
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import vuetify from './plugins/vuetify'
+import VueCookies from 'vue-cookies'
+import axios from "axios";
 
-const app = createApp(App);
-app.component(Playlists);
-app.component(Unlistened);
-app.use(router);
-app.mount('#app');
+
+
+
+Vue.config.productionTip = false
+Vue.use(VueCookies)
+Vue.prototype.$http = axios;
+
+new Vue({
+  router,
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')

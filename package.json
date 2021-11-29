@@ -5,11 +5,13 @@
     "main": "app.js",
     "scripts": {
         "devStart": "nodemon app.js",
-        "auth": "node authSpotify.js"
+        "auth": "node authSpotify.js",
+        "lastfmloader": "node lastfmloader.js"
     },
     "author": "julien beghain",
     "license": "ISC",
     "dependencies": {
+        "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
         "ejs": "^3.1.6",
