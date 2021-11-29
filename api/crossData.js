@@ -9,6 +9,11 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
 
     for (let index = 0; index < spotifyTracks.tracks.length; index++) {
         const spotifyTrack = spotifyTracks.tracks[index];
+
+        if(spotifyTrack.track.is_local){
+            continue
+        }
+
         const lastFMtracks = await lastFM.fetchTracksWithName(spotifyTrack.track.name);
 
         var matchingTrackCount = 0
