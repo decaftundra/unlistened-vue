@@ -1,49 +1,48 @@
 <template>
-  <v-card >
+  <v-card>
     <v-app-bar
       color="success accent-4"
       dark
       scroll-target="#scrolling-techniques-6"
     >
-      <v-toolbar-title v-if="playlist != null && !loading">Playlist {{playlist.name}}</v-toolbar-title>
+      <v-toolbar-title v-if="playlist != null && !loading"
+        >Playlist {{ playlist.name }}</v-toolbar-title
+      >
       <v-toolbar-title v-if="loading">Loading</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-switch
-        v-model="onlyNew"
-        label="New only?"
-        hide-details
-      ></v-switch>
+      <v-switch v-model="onlyNew" label="New only?" hide-details></v-switch>
     </v-app-bar>
-    <v-sheet
-      id="scrolling-techniques-6"
-      class="overflow-y-auto"
-    >
+    <v-sheet id="scrolling-techniques-6" class="overflow-y-auto">
       <v-container>
         <div v-if="loading">
-          <template v-for="n in 10" >
+          <template v-for="n in 10">
             <v-skeleton-loader
-            type="article, actions"
-            :key="`skel-${n}`"
-          ></v-skeleton-loader>
-
-          
+              type="article, actions"
+              :key="`skel-${n}`"
+            ></v-skeleton-loader>
           </template>
         </div>
 
         <v-row dense v-if="!loading">
-          <v-col cols="12" v-for="track in filteredTracks" :key="track.spotifyId">
-            <v-card
-                
+          <v-col cols="12">
+            <v-img
+              height="200px"
+              position="center center"
+              :src="playlist.playlist.images[0].url"
             >
-              <div class="d-flex  justify-space-between" >
+            </v-img>
+          </v-col>
+          <v-col
+            cols="12"
+            v-for="track in filteredTracks"
+            :key="track.spotifyId"
+          >
+            <v-card>
+              <div class="d-flex justify-space-between">
                 <div>
-                  <v-card-title
-                    
-
-                    v-text="track.trackName"
-                  ></v-card-title>
+                  <v-card-title v-text="track.trackName"></v-card-title>
 
                   <v-card-subtitle v-text="track.artistName"></v-card-subtitle>
 
@@ -58,22 +57,23 @@
                     >
                       LISTEN ON SPOTIFY
                     </v-btn>
-                    <v-chip 
+                    <v-chip
                       v-if="track.listenCount == 0"
                       class="ml-2 mt-5"
                       color="pink"
                       label
                       text-color="white"
                     >
-                      <v-icon left>
-                        mdi-new-box
-                      </v-icon>
+                      <v-icon left> mdi-new-box </v-icon>
                       NEW
                     </v-chip>
                   </v-card-actions>
                 </div>
-                <v-avatar 
-                  v-if="track.track.album.images != null && track.track.album.images.length > 0"
+                <v-avatar
+                  v-if="
+                    track.track.album.images != null &&
+                    track.track.album.images.length > 0
+                  "
                   class="ma-3"
                   size="125"
                   tile
@@ -84,9 +84,6 @@
             </v-card>
           </v-col>
         </v-row>
-
-
-
       </v-container>
     </v-sheet>
   </v-card>
@@ -97,47 +94,49 @@ export default {
   data: () => ({
     playlist: null,
     drawer: null,
-    playlistId:null,
-    loading:true,
-    onlyNew:false,
+    playlistId: null,
+    loading: true,
+    onlyNew: false,
   }),
 
   computed: {
+    // Computed property that filters the tracks depending on the "NEw only?" switch
     filteredTracks: function () {
-      if(!this.playlist){
+      if (!this.playlist) {
         return [];
       }
-      if(this.onlyNew){
-        return this.playlist.tracks.filter(track => track.listenCount == 0)      
+      if (this.onlyNew) {
+        return this.playlist.tracks.filter((track) => track.listenCount == 0);
       }
       return this.playlist.tracks;
-    }
+    },
   },
 
-
-  created () {
-    this.fetchTracks()
+  created() {
+    // Fetch tracks when the view is created
+    this.fetchTracks();
   },
 
   watch: {
-    '$route': 'fetchTracks'
+    // Fetch tracks again when the route changes
+    $route: "fetchTracks",
   },
 
   methods: {
-    fetchTracks () {
-        let playlistId = this.$route.params.playlistId
-        this.loading = true
-        if (playlistId != undefined) {
-          fetch('http://localhost:4000/getDiscovery/'+ playlistId)
-            .then(res => res.json())
-            .then(res => {
-              console.log(res);
-              this.playlist = res;
-              this.loading = false;
-            })
-        }
-    }
-  }
-
-}
+    // Fetch tracks and display a loading overlay when the operations is on
+    fetchTracks() {
+      let playlistId = this.$route.params.playlistId;
+      this.loading = true;
+      if (playlistId != undefined) {
+        fetch("http://localhost:4000/getDiscovery/" + playlistId)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+            this.playlist = res;
+            this.loading = false;
+          });
+      }
+    },
+  },
+};
 </script>

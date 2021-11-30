@@ -5,9 +5,6 @@ import vuetify from './plugins/vuetify'
 import VueCookies from 'vue-cookies'
 import axios from "axios";
 
-
-
-
 Vue.config.productionTip = false
 Vue.use(VueCookies)
 Vue.prototype.$http = axios;

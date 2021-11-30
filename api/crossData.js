@@ -36,6 +36,7 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
             spotifyId: spotifyTrack.track.id,
             spotifyWebURL: spotifyTrack.track.external_urls.spotify,
             track: spotifyTrack.track,
+            
 
         };
 
@@ -43,7 +44,8 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
     }
     var res = {
         name: nameOfplaylist,
-        tracks: countedList
+        tracks: countedList,
+        playlist: spotifyTracks.playlist
         
     }
     //console.log(countedList);

@@ -1,23 +1,32 @@
+/**
+ * Main file for the backend server
+ * Load configuration and dependencies
+ * Defines all handlers 
+ */
+
 const dotenv = require('dotenv')
 const cors = require('cors');
 const express = require('express');
-const cookieParser = require('cookie-parser')
 const SpotifyWebApi = require('spotify-web-api-node');
 
-
+// Load configuration from .env file
 dotenv.config();
-//dotenv.config({ path: '.authSpotify.env' });
-dotenv.config({ path: '.access.env' });
 
+// Load api after configuration (as DB connection is initialized within)
 const api = require("./api/crossData")
+
+// Spotify token scopes
 const spotifyScopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-read-recently-played', 'user-top-read', "playlist-read-private"]
 
+// Create an express server
 const app = express();
 app.use(express.json());
+// Allow connections from a host different than the one used to expose the server
+// The web client can connect directly to the server 
+// Production ready workaround : create a reverse proxy on the frontend server
 app.use(cors());
-app.use(cookieParser())
 
-
+// Get details of a Spotify playlist with listen counts on each track
 app.get('/getDiscovery/:id', (req, res) => {
     playlistId = req.params.id
     api.getSpotifyTrackNameAndCountInLastFM(req.app.locals.spotifyAccessToken, playlistId).then((list) => {
@@ -28,6 +37,7 @@ app.get('/getDiscovery/:id', (req, res) => {
     })
 });
 
+// Get all user Spotify playlists
 app.get('/getUserPlaylists', (req, res) => {
     console.log("/getUserPlaylists");
     api.getUserPlaylist(req.app.locals.spotifyAccessToken).then((list) => {
@@ -38,6 +48,7 @@ app.get('/getUserPlaylists', (req, res) => {
     })
 });
 
+// Reload LastFM user history into DB
 app.get('/loadLastFmHistory', (req, res) => {
     console.log("/loadLastFmHistory");
     console.log(req.query);
@@ -49,6 +60,7 @@ app.get('/loadLastFmHistory', (req, res) => {
     })
 });
 
+// Create a Spotify authenticate URL and redirect to it
 app.get('/spotifyLogin', (req, res) => {
     console.log("/spotifyLogin");
     var spotifyApi = new SpotifyWebApi({
@@ -61,7 +73,9 @@ app.get('/spotifyLogin', (req, res) => {
     res.redirect(spotifyUrl)
 });
 
-
+// Callback endpoint for Spotify auth
+// retrieves the access token and puts it in the apps.local (global to the backend server) 
+// then redirects to the front end
 app.get('/spotifycallback', (req, res) => {
     console.log("/spotifyCallback");
     var spotifyApi = new SpotifyWebApi({
@@ -79,7 +93,7 @@ app.get('/spotifycallback', (req, res) => {
     })
 });
 
-
+// Get current logged in Spotify user
 app.get('/me', (req, res) => {
     console.log("/me");
     if(app.locals.spotifyAccessToken) {
@@ -94,7 +108,7 @@ app.get('/me', (req, res) => {
     }
 });
 
-
+// Start the backend server
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`listening on ${port}`);
