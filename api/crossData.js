@@ -6,7 +6,8 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
     var nameOfplaylist = spotifyTracks.name;
     console.log(nameOfplaylist);
     var countedList = [];
-
+    
+    //for each track in the spotify playlist
     for (let index = 0; index < spotifyTracks.tracks.length; index++) {
         const spotifyTrack = spotifyTracks.tracks[index];
         
@@ -19,6 +20,7 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
 
         var matchingTrackCount = 0
 
+        //increments the counter each time an occurrence of this track is found in the database
         lastFMtracks.forEach(track => {
             var lastFmArtist = track.artist["#text"];
 
@@ -29,7 +31,7 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
             }
 
         });
-        //console.log(spotifyTrack.track.artists[0].name + " - " + spotifyTrack.track.name, "(" + matchingTrackCount + ")");
+        
         var currentElement = {
             artistName: spotifyTrack.track.artists[0].name,
             trackName: spotifyTrack.track.name,
@@ -40,7 +42,7 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
             
 
         };
-
+        //the current element is pushed into the track array
         countedList.push(currentElement);
     }
     var res = {
