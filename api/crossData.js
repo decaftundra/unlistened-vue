@@ -9,7 +9,8 @@ async function getSpotifyTrackNameAndCountInLastFM(spotifyAccessToken, playlistI
 
     for (let index = 0; index < spotifyTracks.tracks.length; index++) {
         const spotifyTrack = spotifyTracks.tracks[index];
-
+        
+        //if the track is local, it is excluded 
         if(spotifyTrack.track.is_local){
             continue
         }
